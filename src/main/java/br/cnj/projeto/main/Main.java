@@ -13,12 +13,12 @@ public class Main {
 
         // System.out.println(custo);
 
-        CasoJudicialService service = new CasoJudicialService();
+        CasoJudicialService service = new CasoJudicialService(null);
 
         // service.retornarCasos;
+        service.retornarCasos().forEach(c -> System.out.println(c.getNumero()));
+        // System.out.println(service.retornarCasos().forEach(c -> c.getNumero()));
+        System.out.println("CASO: [" + service.retornarCasoPorID(3) + "]");
 
-        System.out.println(service.retornarCasos());
-
-        service.retornarCasos().forEach(c -> System.out.println("Numero: " + c.getNumero()));
     }
 }
