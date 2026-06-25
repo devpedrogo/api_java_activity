@@ -3,16 +3,22 @@ package br.cnj.projeto.services;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.cnj.projeto.util.CasoJudicial;
+import tools.jackson.databind.ObjectMapper;
 
 @Service
 public class CasoJudicialService {
 
     private final CasoJudicial casoJudicial;
     private List<CasoJudicial> casos;
+    
+    @Autowired
+    private ObjectMapper objectMapper;
 
     public CasoJudicialService(CasoJudicial casoJudicial) {
         casos = new ArrayList<>(Arrays.asList(new CasoJudicial[]{
@@ -40,5 +46,36 @@ public class CasoJudicialService {
 
     public void criarCaso(CasoJudicial novoCaso){
         casos.add(novoCaso);
+    }
+
+    public void atualizarCaso(int id, CasoJudicial casoAtualizado){
+        for (int i = 0; i < casos.size(); i++){
+            if(casos.get(i).getNumero() == casoAtualizado.getNumero()){
+                casos.set(i, casoAtualizado);
+                break;
+            }
+        }
+    }
+
+    public CasoJudicial atualizarCaso(int id, Map<String, Object> campos) {
+    
+        CasoJudicial caso = this.retornarCasoPorID(id);
+
+        if (caso == null) {
+            return null;
+        }
+
+        try {
+            objectMapper.updateValue(caso, campos);
+        } catch (Exception e) {
+            System.out.println("Erro ao mapear os campos: " + e.getMessage());
+            return null;
+        }
+        
+        return caso;
+    }
+
+    public void deletarCaso(int id){
+        casos.remove(this.retornarCasoPorID(id));
     }
 }
