@@ -72,6 +72,7 @@ public class CasoJudicialController {
     public ResponseEntity<CasoJudicial> deletarCaso(@PathVariable int id){
         service.deletarCaso(id);
         return ResponseEntity.noContent().build();
+        //testando esse commit
     }
 
 }
