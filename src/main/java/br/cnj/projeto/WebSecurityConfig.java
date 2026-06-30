@@ -25,6 +25,7 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
+            .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(request -> request
                 // Libera/Restringe caminhos usando apenas Strings direto
                 .requestMatchers("/api/casos/**").hasRole("USER")
